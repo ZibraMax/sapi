@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\RunAsDate_64bit\RunAsDate.exe" /movetime 01\01\2018 00:00:00 "C:\Program Files\Computers and Structures\SAP2000 19\SAP2000.exe" %*

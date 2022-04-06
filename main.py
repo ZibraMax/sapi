@@ -18,19 +18,19 @@ AttachToInstance = False
 
 # otherwise the latest installed version of SAP2000 will be launched
 
-SpecifyPath = False
+SpecifyPath = True
 
 
 # if the above flag is set to True, specify the path to SAP2000 below
 
-ProgramPath = 'C:\Program Files (x86)\Computers and Structures\SAP2000 19\SAP2000.exe'
+ProgramPath = "./launcher.bat"
 
 
 # full path to the model
 
 # set it to the desired path of your model
 
-APIPath = 'C:\CSiAPIexample'
+APIPath = './SBDs'
 
 if not os.path.exists(APIPath):
 
