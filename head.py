@@ -1,5 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
 import os
 import sys
 import comtypes.client
@@ -31,7 +29,7 @@ class SAPInstance():
 
         self.modelPath = os.path.join(self.working_folder, self.filename)
 
-    def init(self):
+    def init(self, start_new=True):
         if self.running_instance:
             try:
                 self.mySapObject = comtypes.client.GetActiveObject(
@@ -59,8 +57,9 @@ class SAPInstance():
                 sys.exit(-1)
             self.mySapObject.ApplicationStart()
         self.SapModel = self.mySapObject.SapModel
-        self.SapModel.InitializeNewModel()
-        self.SapModel.File.NewBlank()
+        if start_new:
+            self.SapModel.InitializeNewModel()
+            self.SapModel.File.NewBlank()
         self.SapModel.SetPresentUnits(6)  # SapModel.SetPresentUnits(KN_m_C)
 
     def load_section(self, filename):
@@ -92,7 +91,7 @@ class SAPInstance():
                     line[2]), line[3], line[4]]
 
                 rebar_name, ec = self.SapModel.PropFrame.SDShape.SetReinfSingle(
-                    name, rebar_name, x-cx, y-cy, number, rebar_mat)
+                    name, '', x-cx, y-cy, number, rebar_mat)
                 logging.info(f"Rebar {rebar_name}. Exit code {ec}")
                 self.SapModel.PropFrame.SDShape.GetReinfSingle(
                     name, rebar_name)
