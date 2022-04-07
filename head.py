@@ -11,11 +11,12 @@ class SAPInstance():
     """docstring for SAPInstance
     """
 
-    def __init__(self, executable_path, working_folder='./temp', running_instance=False, filename='', verbose=False):
+    def __init__(self, executable_path, working_folder='./temp', version=19, running_instance=False, filename='', verbose=False):
         self.executable_path = executable_path
         self.working_folder = working_folder
         self.running_instance = running_instance
         self.filename = filename or "temp.sdb"
+        self.version = version
         self.logger = FEMLogger()
         console_log_level = "warning" if not verbose else "info"
         self.logger.setup_logging(console_log_level=console_log_level)
@@ -38,11 +39,17 @@ class SAPInstance():
                 logging.info("Running instance found!")
             except (OSError, comtypes.COMError):
                 logging.error(
-                    "No running instance of the program found or failed to attach.")
-                sys.exit(-1)
+                    "No running instance of the program found or failed to attach. Trying to start a new window")
+                self.running_instance = False
+                self.init()
+                return None
         else:
-            helper = comtypes.client.CreateObject('SAP2000v19.Helper')
-            helper = helper.QueryInterface(comtypes.gen.SAP2000v19.cHelper)
+            if self.version == 19:
+                helper = comtypes.client.CreateObject('SAP2000v19.Helper')
+                helper = helper.QueryInterface(comtypes.gen.SAP2000v19.cHelper)
+            elif self.version == 23:
+                helper = comtypes.client.CreateObject('SAP2000v1.Helper')
+                helper = helper.QueryInterface(comtypes.gen.SAP2000v1.cHelper)
             try:
                 self.mySapObject = helper.CreateObject(self.executable_path)
                 logging.info("SAP2000 Executable found!")
@@ -54,7 +61,7 @@ class SAPInstance():
         self.SapModel = self.mySapObject.SapModel
         self.SapModel.InitializeNewModel()
         self.SapModel.File.NewBlank()
-        # self.SapModel.SetPresentUnits(6)  # SapModel.SetPresentUnits(KN_m_C)
+        self.SapModel.SetPresentUnits(6)  # SapModel.SetPresentUnits(KN_m_C)
 
     def load_section(self, filename):
         with open(filename, 'r') as f:
@@ -71,9 +78,9 @@ class SAPInstance():
 
             if sec_type == 'RECT':
                 b, h = [float(i) for i in lines[0].split(',')[2:-1]]
-                base_name, ec = self.SapModel.PropFrame.SDShape.SetSolidRect(
-                    name, f"{name}_base", mat, "Default", 0, 0, h, b, 0, -1)
-                logging.info(f"Rect {base_name}. Exit code {ec}")
+                sec_name, ec = self.SapModel.PropFrame.SDShape.SetSolidRect(
+                    name, sec_name, mat, "Default", 0, 0, h, b, 0, -1)
+                logging.info(f"Rect {sec_name}. Exit code {ec}")
                 cx = h/2
                 cy = h/2
             elif sec_type == 'CIRC':
@@ -87,6 +94,8 @@ class SAPInstance():
                 rebar_name, ec = self.SapModel.PropFrame.SDShape.SetReinfSingle(
                     name, rebar_name, x-cx, y-cy, number, rebar_mat)
                 logging.info(f"Rebar {rebar_name}. Exit code {ec}")
+                self.SapModel.PropFrame.SDShape.GetReinfSingle(
+                    name, rebar_name)
 
     def load_material(self, filename):
         with open(filename, 'r') as f:
