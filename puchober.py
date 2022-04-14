@@ -1,6 +1,6 @@
-import matplotlib.pyplot as plt
 from pysapi import *
 import numpy as np
+import matplotlib.pyplot as plt
 
 executable_path = "./launcher.bat"
 working_folder = 'C:/Users/Arturo Rodriguez/Desktop/sapi/SBDs'
@@ -37,7 +37,7 @@ for grupo in GRUPOS:
         logging.info(f'Corriendo con {grupo} {seccion} {(cot/lencot):.3f}')
         ret = O.SapModel.FrameObj.SetSection(grupo, seccion, 1)
         if not ret == 0:
-            logging.error('ALGO PASO AL CAMBIAR LA SECCIÓN TRANSVERSAL', ret)
+            logging.error('ALGO PASO AL CAMBIAR LA SECCIÓN TRANSVERSAL')
 
         O.SapModel.Analyze.RunAnalysis()
         _, _, _, _, Fx, _, _, _, _, _, _, _, _, ret1 = O.SapModel.Results.BaseReact()
