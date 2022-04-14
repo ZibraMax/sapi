@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="generator" content="pandoc" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/styles/idea.min.css"
+		/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+		<title>Código propio para la API de SAP2000</title>
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta
+			name="apple-mobile-web-app-status-bar-style"
+			content="black-translucent"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/reveal.js@^4//dist/reset.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/reveal.js@^4//dist/reveal.css"
+		/>
+		<style>
+			.reveal .sourceCode {
+				/* see #7635 */
+				overflow: visible;
+			}
+			code {
+				white-space: pre-wrap;
+			}
+			span.smallcaps {
+				font-variant: small-caps;
+			}
+			span.underline {
+				text-decoration: underline;
+			}
+			div.column {
+				display: inline-block;
+				vertical-align: top;
+				width: 50%;
+			}
+			div.hanging-indent {
+				margin-left: 1.5em;
+				text-indent: -1.5em;
+			}
+			ul.task-list {
+				list-style: none;
+			}
+			.display.math {
+				display: block;
+				text-align: center;
+				margin: 0.5rem auto;
+			}
+		</style>
+		<link
+			rel="stylesheet"
+			href="https://unpkg.com/reveal.js@^4//dist/theme/white.css"
+			id="theme"
+		/>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section id="title-slide">
+					<h1 class="title">Código propio para la API de SAP2000</h1>
+				</section>
+
+				<section
+					id="correr-pushover-cambiando-la-sección-transversal"
+					class="slide level1"
+					data-heading="Correr *pushover* cambiando la sección transversal"
+				>
+					<h1
+						data-heading="Correr *pushover* cambiando la sección transversal"
+					>
+						Correr <em>pushover</em> cambiando la sección
+						transversal
+					</h1>
+					<p>@ZibraMax</p>
+				</section>
+				<section class="slide level1">
+					<h2
+						data-heading="Definir estructura"
+						id="definir-estructura"
+					>
+						Definir estructura
+					</h2>
+				</section>
+				<section class="slide level1">
+					<h3
+						data-heading="Secciones transversales"
+						id="secciones-transversales"
+					>
+						Secciones transversales
+					</h3>
+					<p>
+						Defina las secciones transversales base con las que se
+						quiere trabajar. Por ejemplo, para este caso tenemos:
+					</p>
+					<table>
+						<thead>
+							<tr class="header">
+								<th>Columnas</th>
+								<th>Vigas</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="odd">
+								<td>
+									<img
+										data-src=".\adjuntos\Pasted%20image%2020220413220526.png"
+										class="internal-embed"
+										data-touched="true"
+										width="150"
+									/>
+								</td>
+								<td>
+									<img
+										data-src=".\adjuntos\Pasted%20image%2020220413220605.png"
+										class="internal-embed"
+										data-touched="true"
+										width="150"
+									/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section class="slide level1">
+					<h3 data-heading="Defectos" id="defectos">Defectos</h3>
+					<p>
+						Crear copias de la sección e introducir los defectos
+						constructivos:
+					</p>
+					<table>
+						<thead>
+							<tr class="header">
+								<th>VD_1**</th>
+								<th>VD_2</th>
+								<th>VD_3</th>
+								<th>VD_4</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="odd">
+								<td>
+									<img
+										data-src=".\adjuntos\Pasted%20image%2020220413221018.png"
+										class="internal-embed"
+										data-touched="true"
+										width="100"
+									/>
+								</td>
+								<td>
+									<img
+										data-src=".\adjuntos\Pasted%20image%2020220413221133.png"
+										class="internal-embed"
+										data-touched="true"
+										width="100"
+									/>
+								</td>
+								<td>
+									<img
+										data-src=".\adjuntos\Pasted%20image%2020220413221216.png"
+										class="internal-embed"
+										data-touched="true"
+										width="100"
+									/>
+								</td>
+								<td>
+									<img
+										data-src=".\adjuntos\Pasted%20image%2020220413221307.png"
+										class="internal-embed"
+										data-touched="true"
+										width="100"
+									/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>* <em>En SAP se llaman</em> Viga_defecto_x*</p>
+				</section>
+				<section class="slide level1">
+					<h3 data-heading="Modelo" id="modelo">Modelo</h3>
+					<p>
+						Crear modelo usando las secciones base, sin defectos<br />
+						<img
+							data-src=".\adjuntos\Pasted%20image%2020220413221840.png"
+							class="internal-embed"
+							data-touched="true"
+							width="300"
+						/><br />
+						Agregar los elementos y caracteristicas necesarias.
+					</p>
+				</section>
+				<section class="slide level1">
+					<h3 data-heading="Pushover" id="pushover">Pushover</h3>
+					<p>
+						Crear un caso de carga <em>pushover</em>. Es importante
+						conocer el nombre del caso de carga de interés. Para
+						este ejemplo, se creó un caso de carga llamado
+						<em>PO</em> basado en 1.2D+1.6L con formulación
+						corrotacional y un sismo basado en coeficientes (FHE).
+					</p>
+				</section>
+				<section class="slide level1">
+					<p>Para el ejemplo puse:</p>
+					<table>
+						<tbody>
+							<tr class="odd">
+								<td>
+									<img
+										data-src=".\adjuntos\Pasted%20image%2020220413222241.png"
+										class="internal-embed"
+										data-touched="true"
+										width="400"
+									/>
+								</td>
+								<td>
+									<img
+										data-src=".\adjuntos\Pasted%20image%2020220413222257.png"
+										class="internal-embed"
+										data-touched="true"
+										width="400"
+									/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+				<section class="slide level1">
+					<h3
+						data-heading="Definir rótulas plásticas/Modelo de fibras"
+						id="definir-rótulas-plásticasmodelo-de-fibras"
+					>
+						Definir rótulas plásticas/Modelo de fibras
+					</h3>
+					<p>SAP + Section designer lo hace mas facil</p>
+				</section>
+				<section class="slide level1">
+					<h3 data-heading="Correr análisis" id="correr-análisis">
+						Correr análisis
+					</h3>
+					<p>
+						Verificar que todo salga bien para comenzar a iterar.
+						Definir los parámetros no lineales correctos. Cada
+						simulación tardará un buen tiempo en correr entonces es
+						mejor verificar que todo este bien antes de empezar.
+					</p>
+				</section>
+				<section class="slide level1">
+					<h3 data-heading="Definir grupos" id="definir-grupos">
+						Definir grupos
+					</h3>
+					<p>
+						Poner los elementos a los que se les quiere variar las
+						propiedades en grupos. Por ejemplo para este caso se
+						crearon dos grupos:
+					</p>
+					<p>
+						<img
+							data-src=".\adjuntos\Pasted%20image%2020220413225638.png"
+							class="internal-embed"
+							data-touched="true"
+							width="700"
+						/>
+					</p>
+				</section>
+				<section class="slide level1">
+					<h4 data-heading="Disclaimer:" id="disclaimer">
+						Disclaimer:
+					</h4>
+					<p>
+						La parte de <em>pushover</em> depende de cada caso y el
+						procedimiento que hice es solo para mostrar como sacar
+						los resultados en Python. La idea es poder mostrar como
+						cambiar las secciones, no hacer una guia de
+						<em>pushover</em>.
+					</p>
+				</section>
+				<section class="slide level1">
+					<h2
+						data-heading="Conectar SAP con Python"
+						id="conectar-sap-con-python"
+					>
+						Conectar SAP con Python
+					</h2>
+					<p>
+						Usando la librería que esta en
+						<a
+							href="https://github.com/ZibraMax/sapi"
+							class="external-link"
+							aria-label-position="top"
+							aria-label="https://github.com/ZibraMax/sapi"
+							rel="noopener"
+							target="_blank"
+							>GitHub</a
+						>
+						se puede conectar SAP de manera sencilla.
+					</p>
+					<ol>
+						<li>
+							Crear una carpeta vacía (carpeta base) (yo la llamé
+							<em>sapi</em>)
+						</li>
+						<li>
+							En esa carpeta poner la carpeta <em>pysapi</em> del
+							repositorio
+						</li>
+						<li>
+							En la <em>carpeta base</em> ponga un archivo con
+							extensión .py/.ipynb para trabajar
+						</li>
+						<li>
+							Ponga el archivo de SAP en una carpeta temporal, por
+							ejemplo <em>SBDs</em>
+						</li>
+					</ol>
+				</section>
+				<section class="slide level1">
+					<h4
+						data-heading="Imports y conexión"
+						id="imports-y-conexión"
+					>
+						Imports y conexión
+					</h4>
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>from pysapi import * # Importar librería propia
+import numpy as np   # Importar numpy para trabajar arreglos
+import matplotlib.pyplot as plt # Importar matplotlib para graficar
+
+executable_path = &quot;./launcher.bat&quot; # Ruta absoluta o relativa al ejecutable de SAP o el launcher :3
+working_folder = &#39;C:/Users/Arturo Rodriguez/Desktop/sapi/SBDs&#39; # Ruta absoluta a la carpeta temporal
+O = SAPInstance(executable_path=executable_path, # Crea un objeto que conecta SAP con Python
+                working_folder=working_folder,   # Carpeta para guardar
+                version=19,                      # Versión de SAP (solo 19 o 23)
+                running_instance=True,           # Conectar con la ventana de SAP abierta
+                filename=&#39;puchober.sdb&#39;,         # Nombre del archivo para guardar
+                verbose=True)                    # Activar mensajes en consola
+O.init(start_new=False)  # Inicializar conexión. Si se pone en True, se borra el modelo!
+Copy</code></pre>
+				</section>
+				<section class="slide level1">
+					<h3 data-heading="Correr análisis" id="correr-análisis-1">
+						Correr análisis
+					</h3>
+					<p>
+						Desbloquee el modelo desde SAP y corra el análisis desde
+						Python
+					</p>
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>O.SapModel.Analyze.RunAnalysis() # Correr modelo
+O.SapModel.Results.Setup.DeselectAllCasesAndCombosForOutput()
+O.SapModel.Results.Setup.SetCaseSelectedForOutput(&#39;PO&#39;) #SELECCIONAR SOLO EL CASO PUSHOVER
+Copy</code></pre>
+				</section>
+				<section class="slide level1">
+					<h3
+						data-heading="Extraer resultados"
+						id="extraer-resultados"
+					>
+						Extraer resultados
+					</h3>
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>NumberResults, LoadCase, StepType, StepNum, Fx, Fy, Fz, Mx, My, Mz, gx, gy, gz, ret = O.SapModel.Results.BaseReact() # Reacciones en la base
+Copy</code></pre>
+					<ul>
+						<li>NumberResults: Numero de resultados</li>
+						<li>
+							LoadCase: Tupla de longitud = NumberResults.
+							Contiene una cadena de texto con el nombre del caso
+							de carga
+						</li>
+						<li>
+							StepType: No poner atención. Es el tipo de step
+							(maximo, envolvente, step)
+						</li>
+						<li>
+							StepNum: Tupla que contiene el número del step para
+							cada resultado
+						</li>
+					</ul>
+				</section>
+				<section class="slide level1">
+					<ul>
+						<li>
+							Fj: Reacción de cortante en X, Y o Z según
+							corresponda. Una por cada resultado (step)
+						</li>
+						<li>
+							Mj: Reacción de momento en X, Y o Z. Una por cada
+							resultado (step)
+						</li>
+						<li>
+							gj: Punto de aplicación de las reacciones. Una por
+							cada resultado (step)
+						</li>
+					</ul>
+				</section>
+				<section class="slide level1">
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>NumberResults, Obj, Elm, LoadCase, StepType, StepNum, U1, U2, U3, R1, R2, R3, ret = O.SapModel.Results.JointDispl(&#39;15&#39;, 0)
+Copy</code></pre>
+					<ul>
+						<li>
+							Parámetro '15': Nombre del nodo donde se quieren
+							sacar los desplazamientos
+						</li>
+						<li>
+							Parametro <em>0</em>: 0-&gt; nodo 1-&gt; Grupo.
+							Dejar en 0.
+						</li>
+						<li>NumberResults: Numero de resultados</li>
+						<li>Obj/Elm: Nombre del nodo</li>
+						<li>
+							StepType: No poner atención. Es el tipo de step
+							(maximo, envolvente, step)
+						</li>
+						<li>
+							StepNum: Tupla que contiene el número del step para
+							cada resultado
+						</li>
+					</ul>
+				</section>
+				<section class="slide level1">
+					<ul>
+						<li>
+							Uj: Desplazamiento en X, Y o Z según corresponda.
+							Tupla con un valor para cada resultado (step)
+						</li>
+						<li>
+							Rj: Giro en X, Y o Z. Tupla con un valor para cada
+							resultado (step)
+						</li>
+					</ul>
+				</section>
+				<section class="slide level1">
+					<p>
+						Crear una lista que contenga el nombre de los grupos que
+						se tienen para cambiar las propiedades y en nombre de
+						las secciones que se quieren iterar. Por ejemplo:
+					</p>
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>GRUPOS = [&#39;VIGAS_PISO_1&#39;, &#39;VIGAS_PISO_2&#39;]
+SECCIONES_DEFECTUOSAS = [&#39;Vigas&#39;,&#39;Vigas_defecto_1&#39;, &#39;Vigas_defecto_2&#39;, &#39;Vigas_defecto_3&#39;, &#39;Vigas_defecto_4&#39;]
+Copy</code></pre>
+				</section>
+				<section class="slide level1">
+					<p>
+						Para cambiar las secciones transversales de un grupo se
+						usa:
+					</p>
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>ret = O.SapModel.FrameObj.SetSection(nombreGrupo, nombreSeccion, 1)
+Copy</code></pre>
+					<p>
+						ret es un entero que es 0 si todo sale bien y contiene 1
+						si algo sale mal. El modelo debe estar desbloqueado para
+						que la operación funcione. Para desbloquear el modelo
+						use:
+					</p>
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>O.SapModel.SetModelIsLocked(False)
+Copy</code></pre>
+				</section>
+				<section class="slide level1">
+					<p>
+						Una vez que cambie las secciones se vuelve a correr el
+						análisis, se vuelve a extraer los resultados y se
+						desbloquea el modelo. Con eso en la siguiente operación,
+						el modelo se modifica y vuelve a correr sin problema.<br />
+						Es recomendable tener listas donde se almacenan los
+						resultados que interesen de las iteraciones. Si se
+						quiere iterar sobre todas las secciones y grupos, el
+						proceso se puede resumir en un par de ciclos for así:
+					</p>
+				</section>
+				<section class="slide level1">
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>DESPLAZAMIENTOS_CUBIERTA += []
+REACCIONES_BASE += []
+O.SapModel.SetModelIsLocked(False)
+for grupo in GRUPOS: # Iterando en todos los grupos
+    for seccion in SECCIONES_DEFECTUOSAS: # Iterando en todas las secciones
+        logging.info(f&#39;Corriendo con {grupo} {seccion}&#39;) # Esto es un print
+        ret = O.SapModel.FrameObj.SetSection(grupo, seccion, 1) # Cambiar de sección
+        if not ret == 0: # Verificar que salió bien
+            logging.error(&#39;ALGO PASO AL CAMBIAR LA SECCIÓN TRANSVERSAL&#39;)
+        O.SapModel.Analyze.RunAnalysis() # Correr el análisis
+        _, _, _, _, Fx, _, _, _, _, _, _, _, _, ret1 = O.SapModel.Results.BaseReact() # Solo se guarda Fx
+        _, _, _, _, _, _, U1, _, _, _, _, _, ret2 = O.SapModel.Results.JointDispl(&#39;15&#39;, 0) # Solo se guarda U1
+        if not ret1 == 0 or not ret2 == 0: # Verificar que todo este bien
+            logging.error(&#39;NO SE PUDO COMPLETAR EL ANALISIS&#39;)
+        else:
+            DESPLAZAMIENTOS_CUBIERTA += [U1] # Almacenar resultados
+            REACCIONES_BASE += [Fx]
+        O.SapModel.SetModelIsLocked(False) # Desbloquear modelo para siguiente iteración
+Copy</code></pre>
+				</section>
+				<section class="slide level1">
+					<p>
+						Los resultados pueden guardarse en archivos de texto
+						(csv/txt) y pueden graficarse usando matplotlib. Para
+						este caso:
+					</p>
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>for i in range(1, len(REACCIONES_BASE)): # Iterar en los resultados menos el primero
+    U1 = DESPLAZAMIENTOS_CUBIERTA[i]
+    Fx = REACCIONES_BASE[i]
+    plt.plot(U1, abs(np.array(Fx)), c=&#39;gray&#39;) # Graficar cada modificación en gris
+    
+U1 = DESPLAZAMIENTOS_CUBIERTA[0] # El primer resultado es el caso teórico
+Fx = REACCIONES_BASE[0]
+
+plt.plot(U1, abs(np.array(Fx)), c=&#39;k&#39;, linewidth=3) # Se pinta con negro
+
+# Decoración de la gráfica
+plt.grid()
+plt.xlabel(&#39;Desplazamiento monitorizado [m]&#39;)
+plt.ylabel(&#39;Reacción de cortante en la base [|kN|]&#39;)
+plt.title(&#39;Análisis estático no lineal&#39;)
+plt.show()
+Copy</code></pre>
+				</section>
+				<section class="slide level1">
+					<p>
+						<img
+							data-src=".\adjuntos\Figure_1.png"
+							class="internal-embed"
+							data-touched="true"
+							width="800"
+						/>
+					</p>
+					<p>
+						Tenga en cuenta que este análisis se realizó con un
+						ejemplo inventado y rápido. Sus curvas de
+						<em>pushover</em> tendrán un mejor comportamiento!
+					</p>
+				</section>
+				<section class="slide level1">
+					<p>
+						En este caso todo se hace sobre un solo modelo de SAP.
+						Si se quiere guardar un <em>sdb</em> por cada iteración,
+						dentro del ciclo se puede correr el siguiente comando:
+					</p>
+					<pre
+						class="language-python"
+						tabindex="0"
+					><code>O.SapModel.File.Save(Ruta) # En Ruta poner la ruta absoluta al archivo sdb que se quiere guardar.
+Copy</code></pre>
+				</section>
+				<section class="slide level1">
+					<p>
+						Todo este procedimiento esta resumido en el archivo
+						<a
+							href="https://github.com/ZibraMax/sapi/blob/main/puchober.py"
+							class="external-link"
+							aria-label-position="top"
+							aria-label="https://github.com/ZibraMax/sapi/blob/main/puchober.py"
+							rel="noopener"
+							target="_blank"
+							>puchober.py</a
+						>
+						que esta disponible en el GitHub.
+					</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+		<script>
+			hljs.highlightAll();
+		</script>
+		<!-- reveal.js plugins -->
+		<script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+		<script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+		<script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+		<script>
+			// Full list of configuration options available at:
+			// https://revealjs.com/config/
+			Reveal.initialize({
+				// Display controls in the bottom right corner
+				controls: true,
+
+				// Help the user learn the controls by providing hints, for example by
+				// bouncing the down arrow when they first encounter a vertical slide
+				controlsTutorial: true,
+
+				// Determines where controls appear, "edges" or "bottom-right"
+				controlsLayout: "bottom-right",
+
+				// Visibility rule for backwards navigation arrows; "faded", "hidden"
+				// or "visible"
+				controlsBackArrows: "faded",
+
+				// Display a presentation progress bar
+				progress: true,
+
+				// Display the page number of the current slide
+				slideNumber: true,
+
+				// 'all', 'print', or 'speaker'
+				showSlideNumber: "all",
+
+				// Add the current slide number to the URL hash so that reloading the
+				// page/copying the URL will return you to the same slide
+				hash: true,
+
+				// Start with 1 for the hash rather than 0
+				hashOneBasedIndex: false,
+
+				// Flags if we should monitor the hash and change slides accordingly
+				respondToHashChanges: true,
+
+				// Push each slide change to the browser history
+				history: false,
+
+				// Enable keyboard shortcuts for navigation
+				keyboard: true,
+
+				// Enable the slide overview mode
+				overview: true,
+
+				// Disables the default reveal.js slide layout (scaling and centering)
+				// so that you can use custom CSS layout
+				disableLayout: false,
+
+				// Vertical centering of slides
+				center: true,
+
+				// Enables touch navigation on devices with touch input
+				touch: true,
+
+				// Loop the presentation
+				loop: false,
+
+				// Change the presentation direction to be RTL
+				rtl: false,
+
+				// see https://revealjs.com/vertical-slides/#navigation-mode
+				navigationMode: "default",
+
+				// Randomizes the order of slides each time the presentation loads
+				shuffle: false,
+
+				// Turns fragments on and off globally
+				fragments: true,
+
+				// Flags whether to include the current fragment in the URL,
+				// so that reloading brings you to the same fragment position
+				fragmentInURL: true,
+
+				// Flags if the presentation is running in an embedded mode,
+				// i.e. contained within a limited portion of the screen
+				embedded: false,
+
+				// Flags if we should show a help overlay when the questionmark
+				// key is pressed
+				help: true,
+
+				// Flags if it should be possible to pause the presentation (blackout)
+				pause: true,
+
+				// Flags if speaker notes should be visible to all viewers
+				showNotes: false,
+
+				// Global override for autoplaying embedded media (null/true/false)
+				autoPlayMedia: null,
+
+				// Global override for preloading lazy-loaded iframes (null/true/false)
+				preloadIframes: null,
+
+				// Number of milliseconds between automatically proceeding to the
+				// next slide, disabled when set to 0, this value can be overwritten
+				// by using a data-autoslide attribute on your slides
+				autoSlide: 0,
+
+				// Stop auto-sliding after user input
+				autoSlideStoppable: true,
+
+				// Use this method for navigation when auto-sliding
+				autoSlideMethod: null,
+
+				// Specify the average time in seconds that you think you will spend
+				// presenting each slide. This is used to show a pacing timer in the
+				// speaker view
+				defaultTiming: null,
+
+				// Enable slide navigation via mouse wheel
+				mouseWheel: false,
+
+				// The display mode that will be used to show slides
+				display: "block",
+
+				// Hide cursor if inactive
+				hideInactiveCursor: true,
+
+				// Time before the cursor is hidden (in ms)
+				hideCursorTime: 5000,
+
+				// Opens links in an iframe preview overlay
+				previewLinks: false,
+
+				// Transition style (none/fade/slide/convex/concave/zoom)
+				transition: "slide",
+
+				// Transition speed (default/fast/slow)
+				transitionSpeed: "default",
+
+				// Transition style for full page slide backgrounds
+				// (none/fade/slide/convex/concave/zoom)
+				backgroundTransition: "fade",
+
+				// Number of slides away from the current that are visible
+				viewDistance: 3,
+
+				// Number of slides away from the current that are visible on mobile
+				// devices. It is advisable to set this to a lower number than
+				// viewDistance in order to save resources.
+				mobileViewDistance: 2,
+
+				// reveal.js plugins
+				plugins: [RevealNotes, RevealSearch, RevealZoom],
+			});
+		</script>
+	</body>
+</html>
