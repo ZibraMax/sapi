@@ -602,12 +602,26 @@ Copy</code></pre>
 		<script>
 			// Full list of configuration options available at:
 			// https://revealjs.com/config/
+			const mediaQuery = window.matchMedia("(max-width: 768px)");
+			const mediaQuery2 = window.matchMedia("(max-height: 768px)");
+			// Check if the media query is true
+			let sisex = "100%";
+			let sisey = "100%";
+			if (mediaQuery.matches) {
+				sisex = 960;
+				sisey = 700;
+			}
+
+			if (mediaQuery2.matches) {
+				sisex = 960;
+				sisey = 700;
+			}
 			Reveal.initialize({
 				// Display controls in the bottom right corner
 				controls: true,
-				
-				width: "100%",
-				height: "100%",
+
+				width: sisex,
+				height: sisey,
 
 				// Help the user learn the controls by providing hints, for example by
 				// bouncing the down arrow when they first encounter a vertical slide
