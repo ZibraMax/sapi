@@ -29,6 +29,10 @@ class SAPInstance():
 
         self.modelPath = os.path.join(self.working_folder, self.filename)
 
+    def saveFileCustomName(self, customName):
+        modelPath = os.path.join(self.working_folder, customName)
+        self.SapModel.File.Save(modelPath)
+
     def init(self, start_new=True):
         if self.running_instance:
             try:
