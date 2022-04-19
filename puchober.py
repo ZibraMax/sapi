@@ -38,7 +38,7 @@ for grupo in GRUPOS:
         ret = O.SapModel.FrameObj.SetSection(grupo, seccion, 1)
         if not ret == 0:
             logging.error('ALGO PASO AL CAMBIAR LA SECCIÓN TRANSVERSAL')
-
+        O.saveFileCustomName(f"modelo{cot}.sdb")
         O.SapModel.Analyze.RunAnalysis()
         _, _, _, _, Fx, _, _, _, _, _, _, _, _, ret1 = O.SapModel.Results.BaseReact()
         _, _, _, _, _, _, U1, _, _, _, _, _, ret2 = O.SapModel.Results.JointDispl(

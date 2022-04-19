@@ -87,7 +87,7 @@ class FEMLogger():
     """Creation of a Logger for FEM purposes. Based on Python Logger by Fonic <https://github.com/fonic>   
     """
 
-    def setup_logging(self, console_log_output="stdout", console_log_level="warning", console_log_color=True, logfile_file=None, logfile_log_level="debug", logfile_log_color=False, log_line_template="%(color_on)s[%(levelname)-8s] %(message)s%(color_off)s"):
+    def setup_logging(self, console_log_output="stdout", console_log_level="warning", console_log_color=True, logfile_file=None, logfile_log_level="info", logfile_log_color=False, log_line_template="%(color_on)s[%(levelname)-8s] %(message)s%(color_off)s"):
         """Set the logger
 
         Args:
